@@ -1,3 +1,5 @@
+# ReWear - Team Bit Lords
+
 
 **ReWear** is a web-based platform that empowers users to exchange unused clothing through direct swaps or a point-based redemption system. The project promotes **sustainable fashion** and helps reduce **textile waste** by encouraging people to **reuse wearable garments** instead of discarding them.
 
@@ -49,8 +51,8 @@ The frontend is powered by **Vite + React** and uses **React Router** for client
 
 | Route              | Description                            |
 |-------------------|----------------------------------------|
-| `/landing`        | Landing page introducing the platform  |
-| `/browse`         | View all approved, available items     |
+| `/`        | Landing page introducing the platform  |
+| `/landing`         | View all approved, available items     |
 
 Local development runs on:  
 **`http://localhost:5173`**
