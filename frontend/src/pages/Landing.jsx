@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Search, 
   Filter, 
@@ -39,6 +40,31 @@ export default function ReWearDashboard() {
   const [wishlist, setWishlist] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(12);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(null); // null: loading, true/false: state
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/api/accounts/islogin', {
+          credentials: 'include', // to include cookies/session
+        });
+
+        const data = await res.json();
+
+        setIsLoggedIn(data?.is_logged_in || false);
+      } catch (error) {
+        console.error('Error checking login:', error);
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkLoginStatus();
+  }, []);
+
+  if (isLoggedIn === null) {
+    return null; // Or show a loading spinner if needed
+  }
 
   // Sample items data
   const allItems = [
@@ -286,6 +312,22 @@ export default function ReWearDashboard() {
             </div>
 
             {/* User Actions */}
+          {isLoggedIn === false && (
+            <div className="flex space-x-4">
+              <Link to="/signin">
+                <button className="px-6 py-2 rounded-full border border-white/20 hover:border-white/40 transition-all duration-300">
+                  Login
+                </button>
+              </Link>
+              <Link to="/signup">
+                <button className="bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-2 rounded-full font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105">
+                  Sign Up
+                </button>
+              </Link>
+            </div>
+          )}
+
+          {isLoggedIn && (
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 px-4 py-2 rounded-full border border-purple-400/30">
                 <Award className="w-4 h-4 text-purple-400" />
@@ -295,10 +337,15 @@ export default function ReWearDashboard() {
               <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
                 <Bell className="w-5 h-5" />
               </button>
-              <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
-                <User className="w-5 h-5" />
-              </button>
+              <Link to="/user">
+                <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                  <User className="w-5 h-5" />
+                </button>
+              </Link>
             </div>
+          )}
+
+
           </div>
         </div>
       </header>
@@ -423,61 +470,68 @@ export default function ReWearDashboard() {
 
             {/* Items Grid/List */}
             <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
-              {currentItems.map(item => (
+             {currentItems.map(item => (
                 <div key={item.id} className={`bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300 hover:scale-105 ${viewMode === 'list' ? 'flex' : ''}`}>
-                  <div className={`relative ${viewMode === 'list' ? 'w-48 h-48' : 'h-64'}`}>
-                    <img 
-                      src={item.image} 
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-3 right-3 flex space-x-2">
-                      <button
-                        onClick={() => toggleWishlist(item.id)}
-                        className={`p-2 rounded-full backdrop-blur-sm transition-all duration-300 ${
-                          wishlist.includes(item.id)
-                            ? 'bg-red-500/20 text-red-400 border border-red-400/30'
-                            : 'bg-black/20 text-white/70 hover:bg-black/30'
-                        }`}
-                      >
-                        <Heart className={`w-4 h-4 ${wishlist.includes(item.id) ? 'fill-current' : ''}`} />
-                      </button>
-                      <button className="p-2 rounded-full bg-black/20 text-white/70 hover:bg-black/30 backdrop-blur-sm transition-all duration-300">
-                        <Share2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                    <div className="absolute top-3 left-3">
-                      <span className="bg-gradient-to-r from-purple-500 to-pink-500 px-2 py-1 rounded-full text-xs font-semibold capitalize">
-                        {item.category}
-                      </span>
-                    </div>
-                    {!item.swapAvailable && (
-                      <div className="absolute bottom-3 left-3">
-                        <span className="bg-orange-500/20 text-orange-300 px-2 py-1 rounded-full text-xs border border-orange-400/30">
-                          Points Only
+                  
+                  <Link to={`/itemDetailPage/${item.id}`} className="block flex-1">
+                    <div className={`relative ${viewMode === 'list' ? 'w-48 h-48' : 'h-64'}`}>
+                      <img 
+                        src={item.image} 
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-3 right-3 flex space-x-2">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            toggleWishlist(item.id);
+                          }}
+                          className={`p-2 rounded-full backdrop-blur-sm transition-all duration-300 ${
+                            wishlist.includes(item.id)
+                              ? 'bg-red-500/20 text-red-400 border border-red-400/30'
+                              : 'bg-black/20 text-white/70 hover:bg-black/30'
+                          }`}
+                        >
+                          <Heart className={`w-4 h-4 ${wishlist.includes(item.id) ? 'fill-current' : ''}`} />
+                        </button>
+                        <button className="p-2 rounded-full bg-black/20 text-white/70 hover:bg-black/30 backdrop-blur-sm transition-all duration-300">
+                          <Share2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <div className="absolute top-3 left-3">
+                        <span className="bg-gradient-to-r from-purple-500 to-pink-500 px-2 py-1 rounded-full text-xs font-semibold capitalize">
+                          {item.category}
                         </span>
                       </div>
-                    )}
-                  </div>
-                  
-                  <div className="p-4 flex-1">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-semibold text-lg">{item.title}</h3>
-                      <div className="text-right">
-                        <div className="text-xl font-bold text-purple-400">{item.points}</div>
-                        <div className="text-xs text-gray-400">points</div>
-                      </div>
+                      {!item.swapAvailable && (
+                        <div className="absolute bottom-3 left-3">
+                          <span className="bg-orange-500/20 text-orange-300 px-2 py-1 rounded-full text-xs border border-orange-400/30">
+                            Points Only
+                          </span>
+                        </div>
+                      )}
                     </div>
-                    
-                    <p className="text-gray-300 text-sm mb-3 line-clamp-2">{item.description}</p>
-                    
+                  </Link>
+
+                  <div className="p-4 flex-1">
+                    <Link to={`/itemDetailPage/${item.id}`} className="block">
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="font-semibold text-lg">{item.title}</h3>
+                        <div className="text-right">
+                          <div className="text-xl font-bold text-purple-400">{item.points}</div>
+                          <div className="text-xs text-gray-400">points</div>
+                        </div>
+                      </div>
+                      <p className="text-gray-300 text-sm mb-3 line-clamp-2">{item.description}</p>
+                    </Link>
+
                     <div className="flex items-center justify-between text-sm mb-3">
                       <div className="flex items-center space-x-4">
                         <span className="text-gray-400">Size: <span className="text-white">{item.size}</span></span>
                         <span className="text-gray-400">Condition: <span className="text-green-400 capitalize">{item.condition.replace('-', ' ')}</span></span>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center justify-between text-sm mb-4">
                       <div className="flex items-center space-x-2">
                         <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-xs font-bold">
@@ -494,7 +548,7 @@ export default function ReWearDashboard() {
                         <span>{item.views}</span>
                       </div>
                     </div>
-                    
+
                     <div className="flex space-x-2">
                       {item.swapAvailable && (
                         <button className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-300 text-sm">
@@ -508,6 +562,7 @@ export default function ReWearDashboard() {
                   </div>
                 </div>
               ))}
+
             </div>
 
             {/* Pagination */}

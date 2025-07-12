@@ -9,26 +9,31 @@ class Item(models.Model):
         ('Dress', 'Dress'),
         ('Other', 'Other'),
     ]
+    
     TYPE_CHOICES = [
         ('Casual', 'Casual'),
         ('Formal', 'Formal'),
         ('Other', 'Other'),
     ]
+    
     SIZE_CHOICES = [
         ('S', 'Small'),
         ('M', 'Medium'),
         ('L', 'Large'),
         ('XL', 'Extra Large'),
     ]
+    
     CONDITION_CHOICES = [
         ('New', 'New'),
         ('Good', 'Good'),
         ('Worn', 'Worn'),
     ]
+    
     STATUS_CHOICES = [
         ('available', 'Available'),
         ('pending', 'Pending'),
         ('swapped', 'Swapped'),
+        ('redeemed', 'Redeemed'),
     ]
 
     title = models.CharField(max_length=100)
@@ -38,8 +43,11 @@ class Item(models.Model):
     size = models.CharField(max_length=10, choices=SIZE_CHOICES)
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
     tags = models.TextField(blank=True)
+    
+    point_value = models.PositiveIntegerField(default=50)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available')
+    
     image = CloudinaryField('image')
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='available')
     uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'items',
+    'swaps',
+    'redemptions',
+
 ]   
 
 MIDDLEWARE = [
