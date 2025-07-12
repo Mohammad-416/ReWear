@@ -1,4 +1,4 @@
-"""from rest_framework import serializers
+from rest_framework import serializers
 from .models import User
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -17,4 +17,3 @@ class RegisterSerializer(serializers.ModelSerializer):
             last_name=validated_data.get('last_name', '')
         )
         return user
-"""
