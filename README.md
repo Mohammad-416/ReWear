@@ -92,20 +92,31 @@ cd ReWear
 
 You must create a .env file inside the /backend folder before running the project.
 
+**We are exposing these keys so it's easier for the judges to test our project**
+**we'll change the API Keys once we are moving to production**
+
+
 ```env
 # Backend secret for superuser API
-SUPERUSER_SECRET_KEY=<SECRET_KEY> #This is required when creating superusers to visit django admin panel
+SUPERUSER_SECRET_KEY=odoo@bitlords
 
 # PostgreSQL connection
-POSTGRES_DB=<DB_NAME>
-POSTGRES_USER=<USER_NAME>
-POSTGRES_PASSWORD=<PASSWORD>
+POSTGRES_DB=odoo
+POSTGRES_USER=bitlords
+POSTGRES_PASSWORD=odoo@bitlords
 DB_HOST=db
 
 # Django settings
-SECRET_KEY=django-insecure-<REPLACE_THIS_WITH_A_RANDOM_STRING>
+SECRET_KEY=django-insecure-_3a*^#8cfjti#67h!@k!iv7hzs4g_1jt5=js^%p-xhxwc(%pph
 DEBUG=True
 ALLOWED_HOSTS=*
+
+
+CLOUDINARY_CLOUD_NAME=dazkajqau
+CLOUDINARY_API_KEY=265987191437164
+CLOUDINARY_API_SECRET=eeoHj_ASXTxnSO--9c6AY4xMoyA
+
+
 
 ```
 

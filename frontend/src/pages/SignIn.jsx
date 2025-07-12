@@ -43,7 +43,7 @@ export default function ReWearLoginPage() {
         // You can redirect or store auth token here
         // Example: localStorage.setItem('token', data.token);
         
-        window.location.href = 'http://localhost:5173/';
+        window.location.href = 'http://localhost:5173/landing';
       } else {
         setError(data.message || 'Login failed. Please try again.');
       }

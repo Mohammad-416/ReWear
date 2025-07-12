@@ -55,6 +55,7 @@ export default function ReWearRegisterPage() {
 
       if (response.ok) {
         alert('Registration successful! Welcome to ReWear!');
+        window.location.href = 'http://localhost:5173/landing';
         // Redirect or store token here
       } else {
         setError(data.message || 'Registration failed. Please try again.');

@@ -46,13 +46,11 @@ export default function ReWearDashboard() {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const res = await fetch('http://localhost:8000/api/accounts/islogin', {
-          credentials: 'include', // to include cookies/session
-        });
+        const res = await fetch('http://localhost:8000/api/accounts/islogin');
 
         const data = await res.json();
 
-        setIsLoggedIn(data?.is_logged_in || false);
+        setIsLoggedIn(data?.is_authenticated || false);
       } catch (error) {
         console.error('Error checking login:', error);
         setIsLoggedIn(false);

@@ -22,7 +22,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/rewearadditem" element={<ReWearAddItem />} />
         <Route path="/admin" element={<ReWearAdminSignup />} />
-        <Route path="/itemDetailPage/${item.id}" element={<ItemDetailPage />} />
+        <Route path="/itemDetailPage/:item.id" element={<ItemDetailPage />} />
         <Route path="*" element={<Navigate to="/" />} />  
       </Routes>
     </div>
