@@ -3,6 +3,11 @@
 
 **ReWear** is a web-based platform that empowers users to exchange unused clothing through direct swaps or a point-based redemption system. The project promotes **sustainable fashion** and helps reduce **textile waste** by encouraging people to **reuse wearable garments** instead of discarding them.
 
+## 📽️ Project Demo
+
+[![Watch the demo](https://img.youtube.com/vi/naYZAi-OoO0/hqdefault.jpg)](https://www.youtube.com/watch?v=naYZAi-OoO0)
+
+
 ## 🌟 Unique Selling Proposition (USP)
 
 - ♻️ **Eco-Friendly Fashion**: Encourages a circular economy by letting users give clothes a second life.
