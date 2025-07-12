@@ -1,89 +1,21 @@
-import { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import NavbarLanding from './components/NavbarLanding';
+import Home from './pages/Home';
+import SignIn from './pages/SignIn';
 
-function App() {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    secret_key: '',
-  });
-
-  const [message, setMessage] = useState('');
-
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const res = await fetch('http://localhost:8000/api/accounts/create-superuser/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        setMessage('Superuser created successfully!');
-      } else {
-        setMessage(data.detail || 'Failed to create superuser.');
-      }
-    } catch (err) {
-      setMessage('Error: ' + err.message);
-    }
-  };
-
+const App = () => {
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto', paddingTop: '40px' }}>
-      <h2>Create Superuser</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <input
-          name="email"
-          placeholder="Email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <input
-          name="password"
-          placeholder="Password"
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <input
-          name="secret_key"
-          placeholder="Secret Key"
-          type="text"
-          value={formData.secret_key}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <button type="submit">Create Superuser</button>
-      </form>
-      <p>{message}</p>
-    </div>
+    
+      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
+        <NavbarLanding />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
+   
   );
-}
+};
 
 export default App;
