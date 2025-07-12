@@ -17,3 +17,18 @@ class RegisterSerializer(serializers.ModelSerializer):
             last_name=validated_data.get('last_name', '')
         )
         return user
+
+
+
+class CompleteProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('phone_number', 'address')
+
+    def update(self, instance, validated_data):
+        instance.phone_number = validated_data.get('phone_number', instance.phone_number)
+        instance.address = validated_data.get('address', instance.address)
+        if instance.points == 0:  # Set only if not set before
+            instance.points = 100
+        instance.save()
+        return instance

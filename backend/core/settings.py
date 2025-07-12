@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     "corsheaders",
     'accounts',  # Custom app for user management
     'rest_framework',  # Django REST Framework for API development
+    'cloudinary',
+    'cloudinary_storage',
+    'items',
 ]   
 
 MIDDLEWARE = [
@@ -56,6 +59,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'core.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+    ]
+}
 
 TEMPLATES = [
     {
@@ -111,6 +120,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
+
 
 LANGUAGE_CODE = 'en-us'
 
