@@ -49,8 +49,8 @@ The frontend is powered by **Vite + React** and uses **React Router** for client
 
 | Route              | Description                            |
 |-------------------|----------------------------------------|
-| `/landing`        | Landing page introducing the platform  |
-| `/browse`         | View all approved, available items     |
+| `/`        | Landing page introducing the platform  |
+| `/landing`         | View all approved, available items     |
 
 Local development runs on:  
 **`http://localhost:5173`**
