@@ -199,4 +199,9 @@ Use the created credentials to log in.
 └── README.md
 ```
 
+ ### 📊 Metadata-Based Classification Model
+ 
+A machine learning classification model trained using metadata features.  
+
+📎 [View Google Colab Notebook](https://colab.research.google.com/drive/1_BXgfq69Pnfg9DKTwnTYRFl2gTEqBxVB?usp=sharing)
 
